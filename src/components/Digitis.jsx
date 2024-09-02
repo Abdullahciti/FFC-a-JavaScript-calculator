@@ -11,7 +11,7 @@ const Digitis = ({ setProcess, setResult, process, result }) => {
   const handleClicked = (e) => {
     styleClicked(e);
     const value = e.target.value;
-    if (!isNaN(value)) {
+    if (!isNaN(value) || value === ".") {
       if (result === 0) {
         setResult(value);
         // eslint-disable-next-line react/prop-types
@@ -28,21 +28,13 @@ const Digitis = ({ setProcess, setResult, process, result }) => {
       value === "/" ||
       value === "*"
     ) {
-      if (typeof eval(process) == "number") {
-        setResult(value);
+      // eslint-disable-next-line react/prop-types
+      if (process.includes("=")) {
+        setProcess(result + value);
+        setResult("");
+      } else if (typeof eval(process) == "number") {
+        setResult("");
         setProcess(process + value);
-      } else {
-        // handleing the Coma
-        // eslint-disable-next-line react/prop-types
-        if (result.length <= 1 || result === 0) {
-          setResult(`${0}.`);
-        } else {
-          // eslint-disable-next-line react/prop-types
-          if (!result.includes(".")) {
-            ("");
-            setResult(`${result}.`);
-          }
-        }
       }
     }
   };
